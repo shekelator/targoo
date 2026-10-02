@@ -1,19 +1,22 @@
 """Claude provider running on AWS Bedrock via the Anthropic SDK.
 
-Uses ``AnthropicBedrockMantle`` — Anthropic's Messages-API client for the
-Bedrock endpoint. Bedrock model IDs carry an ``anthropic.`` prefix
-(e.g. ``anthropic.claude-opus-5-5``); if your account requires a cross-region
-inference profile, set model to the profile id instead (e.g.
-``us.anthropic.claude-opus-5-5``).
+Uses ``AnthropicBedrock`` — the bedrock-runtime (InvokeModel) client. We tried
+its successor ``AnthropicBedrockMantle`` (the Messages-API Bedrock endpoint)
+first, but that endpoint 404s on every model id for accounts without Mantle
+enablement, while bedrock-runtime accepts both plain ``anthropic.*`` ids and
+the cross-region inference profiles (``us.anthropic.*``) most accounts invoke
+through. If your account has Mantle access, swapping the factory back is a
+one-line change (see _default_client_factory).
 
 AWS credentials come from the standard chain: env vars, the profile named by
-``AWS_PROFILE``, SSO, or instance metadata — never from targoo.yaml.
+``AWS_PROFILE``/``aws_profile``, SSO, or instance metadata — never from
+targoo.yaml.
 
-Sampling note: current Claude families (Opus 5.x, Sonnet 5.x, Fable 5.x)
-removed top-level ``temperature`` from the Messages API — requests carrying it
-error out. Output depth is controlled with ``effort`` (low…max, default
-``medium`` on Opus 5.5) instead, so that is our only per-provider knob. The
-global ``temperature`` setting therefore applies to Ollama providers only.
+Sampling note: the Messages API dropped top-level ``temperature`` for current
+Claude families — requests carrying it error out. Output depth is controlled
+with ``effort`` (low…max, default ``medium`` on Opus 5.5) instead, so that is
+our only per-provider knob. The global ``temperature`` setting therefore
+applies to Ollama providers only.
 """
 
 from __future__ import annotations
@@ -92,10 +95,10 @@ class BedrockProvider:
 
 def _default_client_factory(cfg: BedrockProviderConfig) -> Callable[[], Any]:
     def factory() -> Any:
-        from anthropic import AnthropicBedrockMantle
+        from anthropic import AnthropicBedrock
 
         if cfg.aws_profile:
-            return AnthropicBedrockMantle(aws_region=cfg.aws_region, aws_profile=cfg.aws_profile)
-        return AnthropicBedrockMantle(aws_region=cfg.aws_region)
+            return AnthropicBedrock(aws_region=cfg.aws_region, aws_profile=cfg.aws_profile)
+        return AnthropicBedrock(aws_region=cfg.aws_region)
 
     return factory

@@ -5,9 +5,13 @@ max_tokens: 8000          # draft output ceiling per passage
 
 providers:
   bedrock:
-    kind: bedrock         # Claude on AWS via Bedrock
-    model: anthropic.claude-opus-5-5
-    aws_region: us-east-1 # set to a region where Claude is enabled for your account
+    kind: bedrock         # Claude on AWS via Bedrock (bedrock-runtime client)
+    # Account access (checked 2026-10 via list-inference-profiles): sonnet-4-6,
+    # opus-4-6, haiku-4-5. The 5.x/Fable ids 403 for this account. Use the
+    # us.anthropic.* inference-profile form — plain ids fail on-demand
+    # throughput validation.
+    model: us.anthropic.claude-sonnet-4-6
+    aws_region: us-east-1
     # effort: medium      # optional response-depth knob (low..max) — the Bedrock
     #                     # equivalent of temperature tuning for current models
 
@@ -21,7 +25,7 @@ providers:
   dicta-local:
     kind: ollama          # local Ollama daemon
     base_url: http://127.0.0.1:11434
-    model: dictalm-3.0    # run `ollama list` and use the exact tag here
+    model: dicta-il/DictaLM-3.0-1.7B-Thinking:latest
     timeout_seconds: 300
 
 # Provider that judges the drafts. It only ever sees letter labels (A/B/C),

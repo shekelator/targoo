@@ -21,7 +21,7 @@ providers:
   dicta:
     kind: ollama
     base_url: http://127.0.0.1:11434
-    model: dictalm-3.0
+    model: dicta-il/DictaLM-3.0-1.7B-Thinking:latest
     timeout_seconds: 300
     api_key_env: DUMMY
 """
@@ -85,7 +85,7 @@ providers:
   dicta:
     kind: ollama
     base_url: http://127.0.0.1:11434
-    model: dictalm-3.0
+    model: dicta-il/DictaLM-3.0-1.7B-Thinking:latest
 """,
     )
 

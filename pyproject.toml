@@ -5,7 +5,9 @@ description = "Bake-off harness comparing LLM providers for Hebrew→English tra
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "anthropic",
+    # [bedrock] pulls in boto3/botocore: SigV4 request signing for the
+    # AnthropicBedrockMantle client is built on them.
+    "anthropic[bedrock]",
     "httpx",
     "jinja2",
     "pyyaml",

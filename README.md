@@ -89,8 +89,8 @@ max_tokens: 8000          # per-passage draft output ceiling
 providers:
   bedrock:
     kind: bedrock
-    model: anthropic.claude-opus-5-5     # Bedrock model id (anthropic. prefix)
-    aws_region: us-east-1                # a region where Claude is enabled for you
+    model: us.anthropic.claude-sonnet-4-6   # inference-profile id — plain anthropic.*
+    aws_region: us-east-1                # ids fail on-demand throughput validation
     # effort: medium                     # optional (low..max) — replaces temperature,
     #                                    # which current Claude families no longer accept
     # aws_profile: default # optional; otherwise the standard AWS chain applies
@@ -103,7 +103,7 @@ providers:
   dicta-local:
     kind: ollama
     base_url: http://127.0.0.1:11434
-    model: dictalm-3.0                   # exact tag from `ollama list`
+    model: dicta-il/DictaLM-3.0-1.7B-Thinking:latest    # exact tag from `ollama list`
     timeout_seconds: 300
 
 judge: bedrock            # which provider grades the blind drafts (temperature 0)
@@ -115,9 +115,12 @@ so run `aws sso login` first or export keys. See `.env.example` for the full lis
 
 **Verifying your three models:** copy the exact model tag from `ollama list` for the local Dicta
 model; `ollama run gemma4:cloud` (or `ollama pull`) confirms the cloud model name; and
-`aws bedrock list-foundation-models --region <your-region> --by-provider anthropic` shows the
-Claude ids your account can invoke. If your account requires a cross-region inference profile,
-set `model` to the profile id (e.g. `us.anthropic.claude-opus-5-5`).
+`aws bedrock list-inference-profiles --region <your-region>` shows the Claude profile ids your
+account can invoke. Bedrock accounts normally invoke Claude through cross-region inference
+profiles (`us.anthropic.claude-*` or `eu.anthropic.claude-*`): the plain `anthropic.*` model id
+fails on-demand throughput validation, and the 5.x/Fable ids can additionally 403 if access
+wasn't granted to your account. targoo's Bedrock leg talks to bedrock-runtime, so pass the
+inference-profile id.
 
 **Adding another provider** is any `kind: ollama` block pointing at a reachable base URL, or a
 `kind: bedrock` block with another model id — then name it in `--models`.
@@ -173,7 +176,7 @@ src/targoo/
 └── providers/
     ├── base.py       # Provider protocol + Completion + ProviderError
     ├── ollama.py     # one client for local daemon and Ollama Cloud
-    └── bedrock.py    # Claude via AnthropicBedrockMantle (AWS SigV4)
+    └── bedrock.py    # Claude via AnthropicBedrock (bedrock-runtime, SigV4)
 prompts/draft.md      # the draft prompt ({{ source }} template)
 prompts/judge.md      # the judge prompt ({{ source }} + {{ draft }})
 texts/                # your corpus — add passages here

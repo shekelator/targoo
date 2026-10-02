@@ -18,7 +18,7 @@ providers:
   ollama-cloud:
     kind: ollama          # Ollama Cloud (https://ollama.com)
     base_url: https://ollama.com
-    model: gemma4:cloud
+    model: gemma4:31b-cloud               # exact tag per your `ollama list`
     api_key_env: OLLAMA_API_KEY
     timeout_seconds: 180
 
@@ -26,7 +26,7 @@ providers:
     kind: ollama          # local Ollama daemon
     base_url: http://127.0.0.1:11434
     model: dicta-il/DictaLM-3.0-1.7B-Thinking:latest
-    timeout_seconds: 300
+    timeout_seconds: 900   # DictaThinking takes ~6 min on a 20KB passage (GPU, warm)
 
 # Provider that judges the drafts. It only ever sees letter labels (A/B/C),
 # never model names, so the judge stays blind too.

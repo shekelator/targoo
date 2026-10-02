@@ -31,3 +31,8 @@ providers:
 # Provider that judges the drafts. It only ever sees letter labels (A/B/C),
 # never model names, so the judge stays blind too.
 judge: bedrock
+
+# Provider that renders final translations (prompts/final.md → tm/<id>.yaml).
+final: bedrock
+# Style-guide, glossary, and exemplar hooks for the final prompt land here in
+# Phase 2+/3 (see PLAN.md).

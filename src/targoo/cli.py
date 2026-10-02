@@ -1,4 +1,8 @@
-"""targoo CLI — bake-off, judge, texts, inspect-key, init."""
+"""targoo CLI.
+
+Final-translation pipeline: translate, freeze, status.
+Bake-off suite: init, texts, bakeoff, judge, inspect-key.
+"""
 
 from __future__ import annotations
 
@@ -7,6 +11,7 @@ from pathlib import Path
 import typer
 
 from . import bakeoff as bakeoff_mod
+from . import finalize as finalize_mod
 from . import judge as judge_mod
 from .config import DEFAULT_PROFILES, ConfigError, load_config
 from .corpus import load_passages
@@ -56,6 +61,94 @@ def texts(
         lines = passage.source.count("\n") + 1
         lang = "he" if passage.hebrew else "??"
         typer.echo(f"{passage.id}\t{lang}\t{lines} lines\t{len(passage.source)} chars")
+
+
+@app.command()
+def translate(
+    ids: str = typer.Option(
+        "", "--ids", help="Comma-separated passage ids (default: the whole corpus)."
+    ),
+    force: bool = typer.Option(
+        False, "--force", help="Re-draft passages that already have a draft."
+    ),
+    provider: str = typer.Option(
+        "", "--provider", help="Provider to translate with (default: config.final)."
+    ),
+    config_path: str = typer.Option(
+        "", "--config", help="Path to targoo.yaml (default: ./targoo.yaml or $TARGOO_CONFIG)."
+    ),
+) -> None:
+    """Draft final translations for the corpus into tm/ (frozen passages are skipped)."""
+    config = _config(config_path)
+    provider_name = provider or config.final
+    if not provider_name:
+        typer.echo(
+            "error: no final-translation provider configured — set `final:` in targoo.yaml "
+            "or pass --provider <name>",
+            err=True,
+        )
+        raise typer.Exit(code=1)
+    try:
+        built = build_providers(config, [provider_name])
+    except ValueError as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+
+    try:
+        finalize_mod.run_translate(
+            config,
+            built[provider_name],
+            progress=lambda message: typer.echo(message),
+            ids=ids or None,
+            force=force,
+        )
+    except (ConfigError, FileNotFoundError, ValueError, ProviderError) as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    typer.echo(
+        f"\nreview the translations in {config.translations_dir}/, then `targoo freeze <id>`"
+    )
+
+
+@app.command()
+def freeze(
+    passage_id: str = typer.Argument(..., help="Passage id (the .txt stem)."),
+    reopen: bool = typer.Option(
+        False, "--reopen", help="Unfreeze a passage so translate --force can re-draft it."
+    ),
+    config_path: str = typer.Option(
+        "", "--config", help="Path to targoo.yaml (default: ./targoo.yaml or $TARGOO_CONFIG)."
+    ),
+) -> None:
+    """Approve translations/<id>.txt as the passage's final text in tm/."""
+    config = _config(config_path)
+    try:
+        doc = finalize_mod.freeze(config, passage_id, reopen=reopen)
+    except (FileNotFoundError, ValueError) as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    if reopen:
+        typer.echo(f"reopened {passage_id} — edit it, freeze again to re-approve")
+    else:
+        lines = doc["english_frozen"].count("\n") + 1
+        typer.echo(f"froze {passage_id} ({lines} lines) into tm/{passage_id}.yaml")
+
+
+@app.command()
+def status(
+    config_path: str = typer.Option(
+        "", "--config", help="Path to targoo.yaml (default: ./targoo.yaml or $TARGOO_CONFIG)."
+    ),
+) -> None:
+    """Show each passage's pipeline state: untranslated / drafted / draft-error / frozen."""
+    config = _config(config_path)
+    try:
+        rows = finalize_mod.status(config)
+    except ConfigError as e:
+        typer.echo(f"error: {e}", err=True)
+        raise typer.Exit(code=1) from e
+    for row in rows:
+        typer.echo(f"{row['id']}\t{row['state']}")
 
 
 @app.command()

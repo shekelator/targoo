@@ -42,6 +42,9 @@ providers:
 # Provider that judges the drafts. It only ever sees letter labels (A/B/C),
 # never model names, so the judge stays blind too.
 judge: bedrock
+
+# Provider that renders final translations (prompts/final.md → tm/<id>.yaml).
+final: bedrock
 """
 
 
@@ -72,9 +75,12 @@ class Config:
     temperature: float = 0.2
     max_tokens: int = 8000
     judge: str | None = None
+    final: str | None = None
     texts_dir: str = "texts"
     prompts_dir: str = "prompts"
     outputs_dir: str = "outputs"
+    tm_dir: str = "tm"
+    translations_dir: str = "translations"
     providers: dict[str, OllamaProviderConfig | BedrockProviderConfig] = field(
         default_factory=dict
     )
@@ -107,6 +113,12 @@ def load_config(path: str | None = None) -> Config:
         raise ConfigError(f"could not parse {file}: {e}") from e
 
     config = Config()
+    # Paths are resolved against the config file's directory, so a project
+    # works from any working directory (e.g. TARGOO_CONFIG elsewhere).
+    def resolve(key: str, default: str) -> str:
+        value = raw.get(key, default)
+        path = Path(str(value))
+        return str(path if path.is_absolute() else file.parent / path)
 
     if "temperature" in raw:
         config.temperature = float(raw["temperature"])
@@ -114,12 +126,13 @@ def load_config(path: str | None = None) -> Config:
         config.max_tokens = int(raw["max_tokens"])
     if "judge" in raw:
         config.judge = raw["judge"] or None
-    if "texts_dir" in raw:
-        config.texts_dir = raw["texts_dir"]
-    if "prompts_dir" in raw:
-        config.prompts_dir = raw["prompts_dir"]
-    if "outputs_dir" in raw:
-        config.outputs_dir = raw["outputs_dir"]
+    if "final" in raw:
+        config.final = raw["final"] or None
+    config.texts_dir = resolve("texts_dir", config.texts_dir)
+    config.prompts_dir = resolve("prompts_dir", config.prompts_dir)
+    config.outputs_dir = resolve("outputs_dir", config.outputs_dir)
+    config.tm_dir = resolve("tm_dir", config.tm_dir)
+    config.translations_dir = resolve("translations_dir", config.translations_dir)
 
     for name, entry in (raw.get("providers") or {}).items():
         config.providers[str(name)] = _parse_provider(name, entry or {})
@@ -130,6 +143,12 @@ def load_config(path: str | None = None) -> Config:
     if config.judge and config.judge not in config.providers:
         raise ConfigError(
             f"config.judge names {config.judge!r} but providers only have "
+            f"{sorted(config.providers)}"
+        )
+
+    if config.final and config.final not in config.providers:
+        raise ConfigError(
+            f"config.final names {config.final!r} but providers only have "
             f"{sorted(config.providers)}"
         )
 

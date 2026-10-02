@@ -1,7 +1,7 @@
 # targoo
 
-`targoo` is a bake-off harness for **Hebrew→English translation with LLMs**, built around your
-provider trio:
+`targoo` is a **Hebrew→English translation pipeline** built around your
+provider trio (with the bake-off to pick the winner):
 
 | Provider | Kind | Where it runs |
 | --- | --- | --- |
@@ -9,11 +9,9 @@ provider trio:
 | `ollama-cloud` — Gemma | Ollama API over HTTPS | Ollama Cloud |
 | `dicta-local` — Dicta 3.0 | Ollama API | Ollama on this machine |
 
-You add Hebrew source texts as plain files, run them through some or all of the providers, read
-the drafts **blind** (each translation is labelled A/B/C, and only a separate key file knows which
-letter was which model), and can additionally have an LLM judge score each blind draft. This is
-Phase 0/1 of the pipeline in [PLAN.md](PLAN.md) — the translation memory, review/freeze
-workflow, and consistency audit come later on the same scaffold.
+The main pipeline is `targoo translate` → edit → `targoo freeze <id>` (see below). The
+blind bake-off (`bakeoff`, `judge`, `inspect-key`) is kept as a secondary tool for
+comparing models or prompt revisions (Phase 3+, e.g. when you add a new provider).
 
 ## Requirements
 
@@ -42,6 +40,32 @@ targoo bakeoff          # translate everything with every configured provider
 targoo judge --run outputs/<run-name>
 targoo inspect-key outputs/<run-name>   # only after your blind review is done
 ```
+
+## The final-translation pipeline
+
+```bash
+targoo translate                          # every corpus passage via the `final:` provider
+targoo translate --ids amidah --provider bedrock
+# edit translations/<id>.txt by hand — that file is the review surface
+targoo freeze amidah                      # approve the .txt as the passage's final text
+targoo status                             # untranslated / drafted / draft-error / frozen
+```
+
+- **`targoo translate`** renders `prompts/final.md` for each passage and calls the
+  configured provider. Passages that already have a draft are skipped (pass `--force` to
+  re-draft); **frozen passages are never re-drafted** — unfreeze with
+  `targoo freeze <id> --reopen` first. Failures are recorded per passage and the run
+  continues, so a provider timeout costs that passage, not the run.
+- **`translations/<id>.txt`** is the readable export and the review surface: freeze always
+  imports *that file's current contents*. Edit it freely — freeze records whether it
+  changed since the draft (`edit_history`).
+- **`tm/<id>.yaml`** is the record of truth: the Hebrew source, the draft with full
+  provenance (provider, model, prompt name + sha256), `english_frozen`, and
+  `edit_history`. **It is committed to git, and git history is the authorship record —
+  never rewrite history on a frozen TM file.**
+
+Adding new texts later is the same loop: drop a `.txt` file into `texts/`, run
+`targoo translate` (existing passages are skipped), review, freeze.
 
 ## Adding source texts
 
@@ -107,6 +131,7 @@ providers:
     timeout_seconds: 300
 
 judge: bedrock            # which provider grades the blind drafts (temperature 0)
+final: bedrock            # which provider renders final translations via prompts/final.md
 ```
 
 **Secrets are environment-only:** Ollama Cloud keys come from the env var named by
@@ -125,7 +150,12 @@ inference-profile id.
 **Adding another provider** is any `kind: ollama` block pointing at a reachable base URL, or a
 `kind: bedrock` block with another model id — then name it in `--models`.
 
-## Running a bake-off
+## Running a bake-off (model comparisons, Phase 3+)
+
+The three-way bake-off ran in 2026-10: Bedrock (Claude sonnet-4-6) won decisively against
+ollama-cloud (Gemma) and dicta-local (Dicta 3.0), confirmed by both the blind LLM judge and
+the human blind review. The commands stay available for re-benchmarking when you add a
+provider or revise a prompt:
 
 ```bash
 targoo bakeoff                                  # all configured providers
@@ -167,19 +197,25 @@ the point of the blind step.
 
 ```
 src/targoo/
-├── cli.py            # commands: init, texts, bakeoff, judge, inspect-key
+├── cli.py            # commands: translate, freeze, status + bake-off suite
 ├── config.py         # targoo.yaml loading + validation
 ├── corpus.py         # texts/*.txt → passages with stable ids
 ├── prompts.py        # Jinja2 rendering of prompts/
-├── bakeoff.py        # run orchestration + anonymization
+├── finalize.py       # final-translation orchestration (draft → edit → freeze)
+├── tm.py             # translation-memory documents under tm/
+├── bakeoff.py        # blind model-comparison orchestration
 ├── judge.py          # judge pass, JSON parsing, mean-score summary
 └── providers/
     ├── base.py       # Provider protocol + Completion + ProviderError
     ├── ollama.py     # one client for local daemon and Ollama Cloud
     └── bedrock.py    # Claude via AnthropicBedrock (bedrock-runtime, SigV4)
-prompts/draft.md      # the draft prompt ({{ source }} template)
+prompts/draft.md      # the bake-off draft prompt ({{ source }} template)
 prompts/judge.md      # the judge prompt ({{ source }} + {{ draft }})
+prompts/final.md      # the final-translation prompt (no review after this pass)
 texts/                # your corpus — add passages here
+tm/                   # translation memory — committed to git; history is authorship
+translations/         # readable exports + your post-edits (the freeze surface)
+outputs/              # bake-off runs (gitignored)
 PLAN.md               # full pipeline roadmap (Phases 0–4)
 ```
 
@@ -196,9 +232,10 @@ Bedrock client through an injected fake, so provider behavior is pinned without 
 
 ## Roadmap
 
-Phases 2–4 of [PLAN.md](PLAN.md) build `bakeoff.py`'s successor: translation-memory YAML files
-per passage id, a draft → post-edit → freeze workflow, the style guide + glossary + exemplar
-retrieval, and a consistency audit. The provider protocol in
+Phase 2's core is in (`tm.py` + `finalize.py`): TM YAML per passage, the draft →
+post-edit → freeze workflow. Remaining: the style guide + glossary + exemplar retrieval
+(prompt-side, `style/`), the consistency audit (repeated Hebrew spans → divergent English),
+and the assemble/export step. The provider protocol in
 `src/targoo/providers/base.py` is the seam all of that plugs into.
 
 ## Releasing

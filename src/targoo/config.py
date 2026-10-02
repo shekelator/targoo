@@ -60,6 +60,9 @@ class BedrockProviderConfig:
     model: str = ""
     aws_region: str = "us-east-1"
     aws_profile: str = ""
+    # Effort replaces temperature on current Claude families ("low".."max",
+    # empty = model default). See providers/bedrock.py.
+    effort: str = ""
 
     kind = "bedrock"
 
@@ -152,9 +155,14 @@ def _parse_provider(name: str, entry: dict) -> OllamaProviderConfig | BedrockPro
             model=str(entry.get("model") or ""),
             aws_region=str(entry.get("aws_region") or "us-east-1"),
             aws_profile=str(entry.get("aws_profile") or ""),
+            effort=str(entry.get("effort") or ""),
         )
         if not cfg.model:
             raise ConfigError(f"providers.{name}: model is required")
+        if cfg.effort and cfg.effort not in ("low", "medium", "high", "xhigh", "max"):
+            raise ConfigError(
+                f"providers.{name}: effort must be one of low, medium, high, xhigh, max"
+            )
         return cfg
     raise ConfigError(
         f"providers.{name}: unsupported kind {entry.get('kind')!r} (want 'ollama' or 'bedrock')"

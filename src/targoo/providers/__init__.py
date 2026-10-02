@@ -38,5 +38,7 @@ def build_providers(
             case OllamaProviderConfig():
                 providers[name] = OllamaProvider(name, cfg, temp)
             case BedrockProviderConfig():
-                providers[name] = BedrockProvider(name, cfg, temp, config.max_tokens)
+                # No temperature: current Claude families removed it from the
+                # Messages API. Depth is controlled per provider via `effort`.
+                providers[name] = BedrockProvider(name, cfg, config.max_tokens)
     return providers

@@ -83,7 +83,7 @@ Settings live in `targoo.yaml` in the repo root (override the location with `TAR
 or a per-invocation `--config`). `targoo init` writes a fresh starter file anywhere else.
 
 ```yaml
-temperature: 0.2          # draft sampling temperature
+temperature: 0.2          # draft sampling temperature — Ollama providers only
 max_tokens: 8000          # per-passage draft output ceiling
 
 providers:
@@ -91,7 +91,9 @@ providers:
     kind: bedrock
     model: anthropic.claude-opus-5-5     # Bedrock model id (anthropic. prefix)
     aws_region: us-east-1                # a region where Claude is enabled for you
-    # aws_profile: my-sso                # optional; otherwise the standard AWS chain applies
+    # effort: medium                     # optional (low..max) — replaces temperature,
+    #                                    # which current Claude families no longer accept
+    # aws_profile: default # optional; otherwise the standard AWS chain applies
   ollama-cloud:
     kind: ollama
     base_url: https://ollama.com         # Ollama Cloud endpoint

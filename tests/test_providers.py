@@ -117,7 +117,7 @@ TEXT_BLOCK = SimpleNamespace(type="text", text=" translation")
 BEDROCK_CFG = BedrockProviderConfig(model="anthropic.claude-opus-5-5", aws_region="us-east-1")
 
 
-def bedrock_provider(holder=None, response=None) -> BedrockProvider:
+def bedrock_provider(holder=None, response=None, cfg=BEDROCK_CFG) -> BedrockProvider:
     holder = holder if holder is not None else {}
     message = response or SimpleNamespace(content=[TEXT_BLOCK], stop_reason="end_turn")
     factory_count = {"n": 0}
@@ -127,7 +127,7 @@ def bedrock_provider(holder=None, response=None) -> BedrockProvider:
         return SimpleNamespace(messages=FakeBedrockMessages(holder, message))
 
     provider = BedrockProvider(
-        "bedrock", BEDROCK_CFG, temperature=0.2, max_tokens=8000, client_factory=factory
+        "bedrock", cfg, max_tokens=8000, client_factory=factory
     )
     provider._factory_count = factory_count  # exposed for laziness assertions
     return provider
@@ -142,9 +142,23 @@ def test_bedrock_sends_messages_request():
     assert completion.text == " translation"
     assert holder["model"] == "anthropic.claude-opus-5-5"
     assert holder["max_tokens"] == 8000
-    assert holder["temperature"] == 0.2
+    # Current Claude families removed temperature from the Messages API.
+    assert "temperature" not in holder
     assert holder["messages"] == [{"role": "user", "content": "translate this"}]
     assert holder["system"] == "be an expert"
+    assert "output_config" not in holder
+
+
+def test_bedrock_effort_included_when_configured():
+    holder: dict = {}
+    cfg = BedrockProviderConfig(
+        model="anthropic.claude-opus-5-5", aws_region="us-east-1", effort="high"
+    )
+    provider = bedrock_provider(holder, cfg=cfg)
+
+    provider.complete(system="", user="translate this")
+
+    assert holder["output_config"] == {"effort": "high"}
 
 
 def test_bedrock_client_created_lazily():
@@ -171,7 +185,7 @@ def test_bedrock_failure_wrapped():
         raise RuntimeError("boom")
 
     provider = BedrockProvider(
-        "bedrock", BEDROCK_CFG, temperature=0.0, max_tokens=99, client_factory=explode
+        "bedrock", BEDROCK_CFG, max_tokens=99, client_factory=explode
     )
     with pytest.raises(ProviderError, match="bedrock call failed"):
         provider.complete(system="", user="hi")

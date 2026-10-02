@@ -1,5 +1,6 @@
 # Provider settings for the bake-off. Never put secrets in this file.
-temperature: 0.2          # draft sampling temperature (kept at or below 0.2)
+temperature: 0.2          # draft sampling temperature — Ollama providers only;
+                          # current Claude families don't accept temperature at all
 max_tokens: 8000          # draft output ceiling per passage
 
 providers:
@@ -7,6 +8,8 @@ providers:
     kind: bedrock         # Claude on AWS via Bedrock
     model: anthropic.claude-opus-5-5
     aws_region: us-east-1 # set to a region where Claude is enabled for your account
+    # effort: medium      # optional response-depth knob (low..max) — the Bedrock
+    #                     # equivalent of temperature tuning for current models
 
   ollama-cloud:
     kind: ollama          # Ollama Cloud (https://ollama.com)

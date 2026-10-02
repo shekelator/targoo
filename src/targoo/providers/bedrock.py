@@ -8,6 +8,12 @@ inference profile, set model to the profile id instead (e.g.
 
 AWS credentials come from the standard chain: env vars, the profile named by
 ``AWS_PROFILE``, SSO, or instance metadata — never from targoo.yaml.
+
+Sampling note: current Claude families (Opus 5.x, Sonnet 5.x, Fable 5.x)
+removed top-level ``temperature`` from the Messages API — requests carrying it
+error out. Output depth is controlled with ``effort`` (low…max, default
+``medium`` on Opus 5.5) instead, so that is our only per-provider knob. The
+global ``temperature`` setting therefore applies to Ollama providers only.
 """
 
 from __future__ import annotations
@@ -20,6 +26,8 @@ from typing import Any
 from ..config import BedrockProviderConfig
 from .base import Completion, ProviderError
 
+EFFORT_LEVELS = ("low", "medium", "high", "xhigh", "max")
+
 
 class BedrockProvider:
     name: str
@@ -29,14 +37,12 @@ class BedrockProvider:
         self,
         name: str,
         cfg: BedrockProviderConfig,
-        temperature: float,
         max_tokens: int,
         client_factory: Callable[[], Any] | None = None,
     ) -> None:
         self.name = name
         self.model = cfg.model
         self._cfg = cfg
-        self._temperature = temperature
         self._max_tokens = max_tokens
         self._client = None
         self._client_factory = client_factory or _default_client_factory(cfg)
@@ -47,14 +53,15 @@ class BedrockProvider:
         return self._client
 
     def complete(self, system: str, user: str) -> Completion:
-        kwargs: dict[str, Any] = {
+        request: dict[str, Any] = {
             "model": self.model,
             "max_tokens": self._max_tokens,
-            "temperature": self._temperature,
             "messages": [{"role": "user", "content": user}],
         }
+        if self._cfg.effort:
+            request["output_config"] = {"effort": self._cfg.effort}
         if system.strip():
-            kwargs["system"] = system
+            request["system"] = system
 
         started = time.monotonic()
         # Streaming keeps long passages under the HTTP timeout; we only need
@@ -63,7 +70,7 @@ class BedrockProvider:
         # ProviderError too.
         try:
             client = self._ensure_client()
-            with client.messages.stream(**kwargs) as stream:
+            with client.messages.stream(**request) as stream:
                 response = stream.get_final_message()
         except Exception as e:  # noqa: BLE001 — surface any SDK failure to the run log
             raise ProviderError(f"{self.name}: bedrock call failed: {e}") from e

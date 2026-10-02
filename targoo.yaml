@@ -1,0 +1,26 @@
+# Provider settings for the bake-off. Never put secrets in this file.
+temperature: 0.2          # draft sampling temperature (kept at or below 0.2)
+max_tokens: 8000          # draft output ceiling per passage
+
+providers:
+  bedrock:
+    kind: bedrock         # Claude on AWS via Bedrock
+    model: anthropic.claude-opus-5-5
+    aws_region: us-east-1 # set to a region where Claude is enabled for your account
+
+  ollama-cloud:
+    kind: ollama          # Ollama Cloud (https://ollama.com)
+    base_url: https://ollama.com
+    model: gemma4:cloud
+    api_key_env: OLLAMA_API_KEY
+    timeout_seconds: 180
+
+  dicta-local:
+    kind: ollama          # local Ollama daemon
+    base_url: http://127.0.0.1:11434
+    model: dictalm-3.0    # run `ollama list` and use the exact tag here
+    timeout_seconds: 300
+
+# Provider that judges the drafts. It only ever sees letter labels (A/B/C),
+# never model names, so the judge stays blind too.
+judge: bedrock

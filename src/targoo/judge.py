@@ -69,6 +69,10 @@ def run_judge(config: Config, run_dir: str | Path, judge_provider: Provider) -> 
     for passage_id, entry in drafts["passages"].items():
         scored[passage_id] = {}
         for letter, draft in sorted(entry["drafts"].items()):
+            if "text" not in draft:
+                # A bake-off draft call already failed; there is nothing to score.
+                scored[passage_id][letter] = {"error": "draft failed (no text)"}
+                continue
             prompt = render_judge_prompt(config, entry["source"], draft["text"])
             completion = judge_provider.complete(system="", user=prompt)
             judgment = parse_judgment(completion.text)

@@ -1,9 +1,12 @@
 
+from pathlib import Path
+
+import pytest
 import yaml
 
 from targoo.bakeoff import run_bakeoff
 from targoo.config import Config
-from targoo.providers.base import Completion
+from targoo.providers.base import Completion, ProviderError
 
 
 class FakeProvider:
@@ -106,3 +109,69 @@ def test_run_bakeoff_allows_one_provider(tmp_path):
     run_dir = run_bakeoff(config, {"solo": FakeProvider("solo", "solo-model")}, run_name="r-solo")
     key = yaml.safe_load((run_dir / "bakeoff-key.yaml").read_text(encoding="utf-8"))["key"]
     assert key == {"a": {"A": "solo"}, "b": {"A": "solo"}}
+
+
+class _ExplodingProvider:
+    """Fails every call the way a timed-out provider would."""
+
+    name = "explode"
+    model = "explode-model"
+
+    def complete(self, system: str, user: str) -> Completion:
+        raise ProviderError("explode: request failed: timed out")
+
+
+def test_run_bakeoff_survives_provider_failure(tmp_path, capsys):
+    providers = {
+        "healthy": FakeProvider("healthy"),
+        "explode": _ExplodingProvider(),
+    }
+    config = make_config(tmp_path)
+    make_texts(tmp_path)
+
+    run_dir = run_bakeoff(config, providers, run_name="r-partial", seed=5)
+
+    drafts = yaml.safe_load((run_dir / "drafts.yaml").read_text(encoding="utf-8"))
+    key = yaml.safe_load((run_dir / "bakeoff-key.yaml").read_text(encoding="utf-8"))["key"]
+    for passage_id in ("a", "b"):
+        passage_drafts = drafts["passages"][passage_id]["drafts"]
+        assert len(passage_drafts) == 2
+        failed = [d for d in passage_drafts.values() if "text" not in d]
+        ok = [d for d in passage_drafts.values() if "text" in d]
+        assert len(failed) == 1 and len(ok) == 1
+        # The stored error is opaque; the traceback detail went to stderr only.
+        assert failed[0]["error"] == "provider call failed (see terminal output)"
+        assert "explode" not in yaml.safe_dump(drafts["passages"], allow_unicode=True)
+        # The key still maps every letter, failed drafts included.
+        assert set(key[passage_id].values()) == {"healthy", "explode"}
+
+    # The error detail reached the operator, not the artifacts.
+    captured = capsys.readouterr()
+    assert "timed out" in captured.err
+
+    # The markdown page marks the missing draft instead of crashing or lying.
+    for file in (run_dir / "passages").glob("*.md"):
+        text = file.read_text(encoding="utf-8")
+        assert "this draft is missing" in text
+        assert "explode" not in text
+
+
+def test_run_bakeoff_writes_incrementally(tmp_path):
+    """drafts.yaml for passage 'a' survives a hard crash during passage 'b'."""
+    config = make_config(tmp_path)
+    make_texts(tmp_path)
+
+    class CrashOnSecondProvider(FakeProvider):
+        def complete(self, system: str, user: str) -> Completion:
+            if len(self.calls) >= 1:  # first call (passage a) ok, then die hard
+                raise RuntimeError("boom")
+            return super().complete(system, user)
+
+    with pytest.raises(RuntimeError, match="boom"):
+        run_bakeoff(config, {"crash": CrashOnSecondProvider("crash")}, run_name="r-incr")
+
+    # The crash happened during passage b, yet passage a's artifacts are on disk.
+    run_dir = Path(config.outputs_dir) / "r-incr"
+    drafts = yaml.safe_load((run_dir / "drafts.yaml").read_text(encoding="utf-8"))
+    assert set(drafts["passages"]) == {"a"}
+    assert (run_dir / "passages" / "a.md").is_file()

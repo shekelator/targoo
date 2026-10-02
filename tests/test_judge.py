@@ -114,6 +114,30 @@ def test_run_judge_records_unparseable(tmp_path):
         assert row["average"] == 0
 
 
+def test_run_judge_skips_failed_drafts(tmp_path):
+    """A letter whose bake-off draft failed is recorded as an error, not scored."""
+    config = make_config(tmp_path)
+    run_dir = prepare_run(tmp_path)
+    drafts_file = Path(run_dir) / "drafts.yaml"
+    drafts = yaml.safe_load(drafts_file.read_text(encoding="utf-8"))
+    drafts["passages"]["a"]["drafts"]["B"] = {"error": "provider call failed (see terminal output)"}
+    drafts_file.write_text(yaml.safe_dump(drafts, allow_unicode=True), encoding="utf-8")
+    judge = make_judge(
+        json.dumps({"faithfulness": 3, "fluency": 3, "accuracy": 3, "notes": ""})
+    )
+
+    summary = run_judge(config, run_dir, judge)
+
+    judgments = yaml.safe_load((Path(run_dir) / "judgments.yaml").read_text(encoding="utf-8"))
+    assert judgments["scored"]["a"]["B"] == {"error": "draft failed (no text)"}
+    assert judgments["scored"]["a"]["A"]["faithfulness"] == 3
+    # The failed letter was never sent to the judge.
+    assert len(judge.calls) == 3  # a/A, b/A, b/B — not a/B
+    rows = {row["letter"]: row for row in summary}
+    assert rows["A"]["passages"] == 2
+    assert rows["B"]["passages"] == 1
+
+
 def test_run_judge_missing_run_raises(tmp_path):
     config = make_config(tmp_path)
     judge = make_judge("{}")

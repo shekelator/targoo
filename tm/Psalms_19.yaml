@@ -1,0 +1,85 @@
+passage_id: Psalms_19
+style_version: 1
+hebrew: 'לַמְנַצֵּחַ מִזְמוֹר לְדָוִֽד׃
+
+  הַשָּׁמַיִם מְֽסַפְּרִים כְּבֽוֹד־אֵל וּֽמַעֲשֵׂה יָדָיו מַגִּיד הָרָקִֽיעַ׃
+
+  יוֹם לְיוֹם יַבִּיעַֽ אֹמֶר וְלַיְלָה לְּלַיְלָה יְחַוֶּה־דָּֽעַת׃
+
+  אֵֽין־אֹמֶר וְאֵין דְּבָרִים בְּלִי נִשְׁמָע קוֹלָֽם׃
+
+  בְּכׇל־הָאָרֶץ יָצָא קַוָּם וּבִקְצֵה תֵבֵל מִלֵּיהֶם לַשֶּׁמֶשׁ שָֽׂם־אֹהֶל בָּהֶֽם׃
+
+  וְהוּא כְּחָתָן יֹצֵא מֵחֻפָּתוֹ יָשִׂישׂ כְּגִבּוֹר לָרוּץ אֹֽרַח׃
+
+  מִקְצֵה הַשָּׁמַיִם מֽוֹצָאוֹ וּתְקוּפָתוֹ עַל־קְצוֹתָם וְאֵין נִסְתָּר מֵחַמָּתֽוֹ׃
+
+  תּוֹרַת יְהֹוָה תְּמִימָה מְשִׁיבַת נָפֶשׁ עֵדוּת יְהֹוָה נֶאֱמָנָה מַחְכִּימַת
+  פֶּֽתִי׃
+
+  פִּקּוּדֵי יְהֹוָה יְשָׁרִים מְשַׂמְּחֵי־לֵב מִצְוַת יְהֹוָה בָּרָה מְאִירַת עֵינָֽיִם׃
+
+  יִרְאַת יְהֹוָה טְהוֹרָה עוֹמֶדֶת לָעַד מִֽשְׁפְּטֵי־יְהֹוָה אֱמֶת צָֽדְקוּ יַחְדָּֽו׃
+
+  הַֽנֶּחֱמָדִים מִזָּהָב וּמִפַּז רָב וּמְתוּקִים מִדְּבַשׁ וְנֹפֶת צוּפִֽים׃
+
+  גַּֽם־עַבְדְּךָ נִזְהָר בָּהֶם בְּשׇׁמְרָם עֵקֶב רָֽב׃
+
+  שְׁגִיאוֹת מִֽי־יָבִין מִֽנִּסְתָּרוֹת נַקֵּֽנִי׃
+
+  גַּם מִזֵּדִים חֲשֹׂךְ עַבְדֶּךָ אַֽל־יִמְשְׁלוּ־בִי אָז אֵיתָם וְנִקֵּיתִי מִפֶּשַֽׁע
+  רָֽב׃
+
+  יִהְיֽוּ־לְרָצוֹן אִמְרֵי־פִי וְהֶגְיוֹן לִבִּי לְפָנֶיךָ יְהֹוָה צוּרִי וְגֹאֲלִֽי׃ {פ}'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'For the director of music. A psalm of David.
+
+
+    The heavens declare the glory of God; the sky proclaims the work of his hands.
+
+    Day after day pours forth speech, and night after night reveals knowledge.
+
+    There is no speech, there are no words; their voice is not heard —
+
+    yet their voice goes out through all the earth, their words to the ends of the
+    world. In them he has set a tent for the sun,
+
+    which comes out like a bridegroom from his canopy, and rejoices like a strong
+    man running his course.
+
+    Its rising is from one end of the heavens, and its circuit to the other end; nothing
+    is hidden from its heat.
+
+
+    The law of the LORD is perfect, reviving the soul; the testimony of the LORD is
+    sure, making wise the simple.
+
+    The precepts of the LORD are right, rejoicing the heart; the command of the LORD
+    is pure, giving light to the eyes.
+
+    The fear of the LORD is clean, enduring forever; the judgments of the LORD are
+    true, and altogether righteous.
+
+    More to be desired than gold, than much fine gold; sweeter than honey, than honey
+    dripping from the comb.
+
+    By them your servant is warned; in keeping them there is great reward.
+
+
+    Who can discern his own errors? Acquit me of hidden faults.
+
+    Keep your servant also from willful sins; let them not rule over me. Then I will
+    be blameless, and innocent of great transgression.
+
+
+    May the words of my mouth and the meditation of my heart be acceptable before
+    you, O LORD, my rock and my redeemer.'
+english_frozen: null
+edit_history: []
+source: {}

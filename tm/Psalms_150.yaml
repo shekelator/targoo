@@ -1,0 +1,34 @@
+passage_id: Psalms_150
+style_version: 1
+hebrew: 'הַלְלוּ־יָהּ הַֽלְלוּ־אֵל בְּקׇדְשׁוֹ הַֽלְלוּהוּ בִּרְקִיעַ עֻזּֽוֹ׃
+
+  הַלְלוּהוּ בִגְבוּרֹתָיו הַלְלוּהוּ כְּרֹב גֻּדְלֽוֹ׃
+
+  הַלְלוּהוּ בְּתֵקַע שׁוֹפָר הַלְלוּהוּ בְּנֵבֶל וְכִנּֽוֹר׃
+
+  הַלְלוּהוּ בְּתֹף וּמָחוֹל הַֽלְלוּהוּ בְּמִנִּים וְעֻגָֽב׃
+
+  הַלְלוּהוּ בְצִלְצְלֵי־שָׁמַע הַֽלְלוּהוּ בְּֽצִלְצְלֵי תְרוּעָֽה׃
+
+  כֹּל הַנְּשָׁמָה תְּהַלֵּל יָהּ הַֽלְלוּ־יָֽהּ׃'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'Hallelujah! Praise God in his sanctuary; praise him in his mighty expanse.
+
+    Praise him for his mighty deeds; praise him for his surpassing greatness.
+
+    Praise him with the blast of the shofar; praise him with lute and lyre.
+
+    Praise him with tambourine and dance; praise him with strings and pipe.
+
+    Praise him with resounding cymbals; praise him with clashing cymbals.
+
+    Let everything that has breath praise the LORD. Hallelujah!'
+english_frozen: null
+edit_history: []
+source: {}

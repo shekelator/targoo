@@ -1,0 +1,98 @@
+passage_id: Psalms_135
+style_version: 1
+hebrew: 'הַלְלוּ־יָהּ הַֽלְלוּ אֶת־שֵׁם יְהֹוָה הַֽלְלוּ עַבְדֵי יְהֹוָֽה׃
+
+  שֶׁעֹמְדִים בְּבֵית יְהֹוָה בְּחַצְרוֹת בֵּית אֱלֹהֵֽינוּ׃
+
+  הַֽלְלוּ־יָהּ כִּֽי־טוֹב יְהֹוָה זַמְּרוּ לִשְׁמוֹ כִּי נָעִֽים׃
+
+  כִּֽי־יַעֲקֹב בָּחַר לוֹ יָהּ יִשְׂרָאֵל לִסְגֻלָּתֽוֹ׃
+
+  כִּי אֲנִי יָדַעְתִּי כִּֽי־גָדוֹל יְהֹוָה וַאֲדֹנֵינוּ מִכׇּל־אֱלֹהִֽים׃
+
+  כֹּל אֲשֶׁר־חָפֵץ יְהֹוָה עָשָׂה בַּשָּׁמַיִם וּבָאָרֶץ בַּיַּמִּים וְכׇל־תְּהֹמֽוֹת׃
+
+  מַעֲלֶה נְשִׂאִים מִקְצֵה הָאָרֶץ בְּרָקִים לַמָּטָר עָשָׂה מֽוֹצֵא־רוּחַ מֵאֽוֹצְרוֹתָֽיו׃
+
+  שֶׁהִכָּה בְּכוֹרֵי מִצְרָיִם מֵאָדָם עַד־בְּהֵמָֽה׃
+
+  שָׁלַח אוֹתֹת וּמֹפְתִים בְּתוֹכֵכִי מִצְרָיִם בְּפַרְעֹה וּבְכׇל־עֲבָדָֽיו׃
+
+  שֶׁהִכָּה גּוֹיִם רַבִּים וְהָרַג מְלָכִים עֲצוּמִֽים׃
+
+  לְסִיחוֹן מֶלֶךְ הָאֱמֹרִי וּלְעוֹג מֶלֶךְ הַבָּשָׁן וּלְכֹל מַמְלְכוֹת כְּנָֽעַן׃
+
+  וְנָתַן אַרְצָם נַחֲלָה נַחֲלָה לְיִשְׂרָאֵל עַמּֽוֹ׃
+
+  יְהֹוָה שִׁמְךָ לְעוֹלָם יְהֹוָה זִכְרְךָ לְדֹר־וָדֹֽר׃
+
+  כִּֽי־יָדִין יְהֹוָה עַמּוֹ וְעַל־עֲבָדָיו יִתְנֶחָֽם׃
+
+  עֲצַבֵּי הַגּוֹיִם כֶּסֶף וְזָהָב מַעֲשֵׂה יְדֵי אָדָֽם׃
+
+  פֶּֽה־לָהֶם וְלֹא יְדַבֵּרוּ עֵינַיִם לָהֶם וְלֹא יִרְאֽוּ׃
+
+  אׇזְנַיִם לָהֶם וְלֹא יַאֲזִינוּ אַף אֵין־יֶשׁ־רוּחַ בְּפִיהֶֽם׃
+
+  כְּמוֹהֶם יִהְיוּ עֹשֵׂיהֶם כֹּל אֲשֶׁר־בֹּטֵחַ בָּהֶֽם׃
+
+  בֵּית יִשְׂרָאֵל בָּרְכוּ אֶת־יְהֹוָה בֵּית אַהֲרֹן בָּרְכוּ אֶת־יְהֹוָֽה׃
+
+  בֵּית הַלֵּוִי בָּרְכוּ אֶת־יְהֹוָה יִֽרְאֵי יְהֹוָה בָּרְכוּ אֶת־יְהֹוָֽה׃
+
+  בָּרוּךְ יְהֹוָה מִצִּיּוֹן שֹׁכֵן יְֽרוּשָׁלָ͏ִם הַֽלְלוּ־יָֽהּ׃ {פ}'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'Hallelujah! Praise the name of the LORD; praise him, servants of the LORD,
+
+    who stand in the house of the LORD, in the courts of our God''s house.
+
+    Praise the LORD, for the LORD is good; sing to his name, for it is lovely.
+
+    For the LORD chose Jacob for himself, Israel as his own treasure.
+
+    For I know that the LORD is great, and that our Lord is above all gods.
+
+    Whatever the LORD pleases, he does — in the heavens and on the earth, in the seas
+    and all the depths.
+
+    He raises clouds from the ends of the earth, makes lightning for the rain, and
+    brings the wind out of his storehouses.
+
+    He struck down the firstborn of Egypt, both human and animal.
+
+    He sent signs and wonders into your midst, O Egypt, against Pharaoh and all his
+    servants.
+
+    He struck down many nations and slew mighty kings —
+
+    Sihon king of the Amorites, and Og king of Bashan, and all the kingdoms of Canaan
+    —
+
+    and gave their land as a heritage, a heritage to Israel his people.
+
+    O LORD, your name endures forever; O LORD, your renown lasts through all generations.
+
+    For the LORD will vindicate his people and have compassion on his servants.
+
+    The idols of the nations are silver and gold, the work of human hands.
+
+    They have mouths but cannot speak; they have eyes but cannot see.
+
+    They have ears but cannot hear; there is no breath in their mouths.
+
+    Those who make them will become like them — so will all who trust in them.
+
+    House of Israel, bless the LORD; house of Aaron, bless the LORD.
+
+    House of Levi, bless the LORD; you who fear the LORD, bless the LORD.
+
+    Blessed be the LORD from Zion, who dwells in Jerusalem. Hallelujah!'
+english_frozen: null
+edit_history: []
+source: {}

@@ -1,0 +1,50 @@
+passage_id: Psalms_149
+style_version: 1
+hebrew: 'הַלְלוּ־יָהּ שִׁירוּ לַֽיהֹוָה שִׁיר חָדָשׁ תְּהִלָּתוֹ בִּקְהַל חֲסִידִֽים׃
+
+  יִשְׂמַח יִשְׂרָאֵל בְּעֹשָׂיו בְּנֵֽי־צִיּוֹן יָגִילוּ בְמַלְכָּֽם׃
+
+  יְהַלְלוּ שְׁמוֹ בְמָחוֹל בְּתֹף וְכִנּוֹר יְזַמְּרוּ־לֽוֹ׃
+
+  כִּֽי־רוֹצֶה יְהֹוָה בְּעַמּוֹ יְפָאֵר עֲנָוִים בִּישׁוּעָֽה׃
+
+  יַעְלְזוּ חֲסִידִים בְּכָבוֹד יְרַנְּנוּ עַל־מִשְׁכְּבוֹתָֽם׃
+
+  רוֹמְמוֹת אֵל בִּגְרוֹנָם וְחֶרֶב פִּיפִיּוֹת בְּיָדָֽם׃
+
+  לַעֲשׂוֹת נְקָמָה בַּגּוֹיִם תּוֹכֵחוֹת בַּלְאֻמִּֽים׃
+
+  לֶאְסֹר מַלְכֵיהֶם בְּזִקִּים וְנִכְבְּדֵיהֶם בְּכַבְלֵי בַרְזֶֽל׃
+
+  לַעֲשׂוֹת בָּהֶם מִשְׁפָּט כָּתוּב הָדָר הוּא לְכׇל־חֲסִידָיו הַֽלְלוּ־יָֽהּ׃ {פ}'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'Hallelujah! Sing to the LORD a new song; let his praise ring out in the assembly
+    of the faithful.
+
+    Let Israel rejoice in its maker; let the children of Zion exult in their king.
+
+    Let them praise his name with dancing, and make music to him with tambourine and
+    harp.
+
+    For the LORD delights in his people; he adorns the humble with salvation.
+
+    Let the faithful exult in glory; let them sing for joy on their beds.
+
+    Let the high praises of God be in their throats, and a double-edged sword in their
+    hands—
+
+    to execute vengeance on the nations and punishment on the peoples,
+
+    to bind their kings in chains and their nobles in iron fetters,
+
+    to carry out the judgment written against them. This is the glory of all his faithful.
+    Hallelujah!'
+english_frozen: null
+edit_history: []
+source: {}

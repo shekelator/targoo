@@ -1,0 +1,103 @@
+passage_id: Psalms_33
+style_version: 1
+hebrew: 'רַנְּנוּ צַדִּיקִים בַּֽיהֹוָה לַיְשָׁרִים נָאוָה תְהִלָּֽה׃
+
+  הוֹדוּ לַיהֹוָה בְּכִנּוֹר בְּנֵבֶל עָשׂוֹר זַמְּרוּ־לֽוֹ׃
+
+  שִֽׁירוּ־לוֹ שִׁיר חָדָשׁ הֵיטִיבוּ נַגֵּן בִּתְרוּעָֽה׃
+
+  כִּֽי־יָשָׁר דְּבַר־יְהֹוָה וְכׇל־מַעֲשֵׂהוּ בֶּאֱמוּנָֽה׃
+
+  אֹהֵב צְדָקָה וּמִשְׁפָּט חֶסֶד יְהֹוָה מָלְאָה הָאָֽרֶץ׃
+
+  בִּדְבַר יְהֹוָה שָׁמַיִם נַעֲשׂוּ וּבְרוּחַ פִּיו כׇּל־צְבָאָֽם׃
+
+  כֹּנֵס כַּנֵּד מֵי הַיָּם נֹתֵן בְּאוֹצָרוֹת תְּהוֹמֽוֹת׃
+
+  יִֽירְאוּ מֵיְהֹוָה כׇּל־הָאָרֶץ מִמֶּנּוּ יָגוּרוּ כׇּל־יֹשְׁבֵי תֵבֵֽל׃
+
+  כִּי הוּא אָמַר וַיֶּהִי הֽוּא־צִוָּה וַֽיַּעֲמֹֽד׃
+
+  יְֽהֹוָה הֵפִיר עֲצַת־גּוֹיִם הֵנִיא מַחְשְׁבוֹת עַמִּֽים׃
+
+  עֲצַת יְהֹוָה לְעוֹלָם תַּעֲמֹד מַחְשְׁבוֹת לִבּוֹ לְדֹר וָדֹֽר׃
+
+  אַשְׁרֵי הַגּוֹי אֲשֶׁר־יְהֹוָה אֱלֹהָיו הָעָם בָּחַר לְנַחֲלָה לֽוֹ׃
+
+  מִשָּׁמַיִם הִבִּיט יְהֹוָה רָאָה אֶֽת־כׇּל־בְּנֵי הָאָדָֽם׃
+
+  מִֽמְּכוֹן־שִׁבְתּוֹ הִשְׁגִּיחַ אֶל כׇּל־יֹשְׁבֵי הָאָֽרֶץ׃
+
+  הַיֹּצֵר יַחַד לִבָּם הַמֵּבִין אֶל־כׇּל־מַעֲשֵׂיהֶֽם׃
+
+  אֵֽין־הַמֶּלֶךְ נוֹשָׁע בְּרׇב־חָיִל גִּבּוֹר לֹא־יִנָּצֵל בְּרׇב־כֹּֽחַ׃
+
+  שֶׁקֶר הַסּוּס לִתְשׁוּעָה וּבְרֹב חֵילוֹ לֹא יְמַלֵּֽט׃
+
+  הִנֵּה עֵין יְהֹוָה אֶל־יְרֵאָיו לַֽמְיַחֲלִים לְחַסְדּֽוֹ׃
+
+  לְהַצִּיל מִמָּוֶת נַפְשָׁם וּלְחַיּוֹתָם בָּרָעָֽב׃
+
+  נַפְשֵׁנוּ חִכְּתָה לַֽיהֹוָה עֶזְרֵנוּ וּמָגִנֵּנוּ הֽוּא׃
+
+  כִּי־בוֹ יִשְׂמַח לִבֵּנוּ כִּי בְשֵׁם קׇדְשׁוֹ בָטָֽחְנוּ׃
+
+  יְהִי־חַסְדְּךָ יְהֹוָה עָלֵינוּ כַּאֲשֶׁר יִחַלְנוּ לָֽךְ׃ {פ}'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'Shout for joy in the LORD, you righteous; praise is fitting for the upright.
+
+    Give thanks to the LORD with the lyre; make music to him with the ten-stringed
+    harp.
+
+    Sing to him a new song; play skillfully with a shout of joy.
+
+    For the word of the LORD is upright, and all his work is done in faithfulness.
+
+    He loves righteousness and justice; the earth is full of the LORD''s steadfast
+    love.
+
+    By the word of the LORD the heavens were made, and all their host by the breath
+    of his mouth.
+
+    He gathers the waters of the sea like a heap; he puts the depths in storehouses.
+
+    Let all the earth fear the LORD; let all the inhabitants of the world stand in
+    awe of him.
+
+    For he spoke, and it came to be; he commanded, and it stood firm.
+
+    The LORD frustrates the counsel of the nations; he thwarts the plans of the peoples.
+
+    The counsel of the LORD stands forever, the plans of his heart to all generations.
+
+    Blessed is the nation whose God is the LORD, the people he has chosen as his heritage.
+
+    The LORD looks down from heaven; he sees all the children of man.
+
+    From his dwelling place he gazes on all the inhabitants of the earth.
+
+    He who fashions the hearts of them all and observes all their deeds.
+
+    A king is not saved by a great army; a warrior is not delivered by great strength.
+
+    The horse is a false hope for salvation; its great might cannot rescue.
+
+    Behold, the eye of the LORD is on those who fear him, on those who hope in his
+    steadfast love,
+
+    to deliver their souls from death and to keep them alive in famine.
+
+    Our soul waits for the LORD; he is our help and our shield.
+
+    For our hearts are glad in him, because we trust in his holy name.
+
+    Let your steadfast love, O LORD, be upon us, as we have hoped in you.'
+english_frozen: null
+edit_history: []
+source: {}

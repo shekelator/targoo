@@ -1,0 +1,69 @@
+passage_id: Psalms_148
+style_version: 1
+hebrew: 'הַלְלוּ־יָהּ הַֽלְלוּ אֶת־יְהֹוָה מִן־הַשָּׁמַיִם הַֽלְלוּהוּ בַּמְּרוֹמִֽים׃
+
+  הַֽלְלוּהוּ כׇל־מַלְאָכָיו הַלְלוּהוּ כׇּל־צְבָאָֽו׃
+
+  הַֽלְלוּהוּ שֶׁמֶשׁ וְיָרֵחַ הַֽלְלוּהוּ כׇּל־כּוֹכְבֵי אֽוֹר׃
+
+  הַֽלְלוּהוּ שְׁמֵי הַשָּׁמָיִם וְהַמַּיִם אֲשֶׁר מֵעַל הַשָּׁמָֽיִם׃
+
+  יְֽהַלְלוּ אֶת־שֵׁם יְהֹוָה כִּי הוּא צִוָּה וְנִבְרָֽאוּ׃
+
+  וַיַּעֲמִידֵם לָעַד לְעוֹלָם חׇק־נָתַן וְלֹא יַעֲבֽוֹר׃
+
+  הַֽלְלוּ אֶת־יְהֹוָה מִן־הָאָרֶץ תַּנִּינִים וְכׇל־תְּהֹמֽוֹת׃
+
+  אֵשׁ וּבָרָד שֶׁלֶג וְקִיטוֹר רוּחַ סְעָרָה עֹשָׂה דְבָרֽוֹ׃
+
+  הֶהָרִים וְכׇל־גְּבָעוֹת עֵץ פְּרִי וְכׇל־אֲרָזִֽים׃
+
+  הַחַיָּה וְכׇל־בְּהֵמָה רֶמֶשׂ וְצִפּוֹר כָּנָֽף׃
+
+  מַלְכֵי־אֶרֶץ וְכׇל־לְאֻמִּים שָׂרִים וְכׇל־שֹׁפְטֵי אָֽרֶץ׃
+
+  בַּחוּרִים וְגַם־בְּתוּלוֹת זְקֵנִים עִם־נְעָרִֽים׃
+
+  יְהַלְלוּ אֶת־שֵׁם יְהֹוָה כִּֽי־נִשְׂגָּב שְׁמוֹ לְבַדּוֹ הוֹדוֹ עַל־אֶרֶץ וְשָׁמָֽיִם׃
+
+  וַיָּרֶם קֶרֶן לְעַמּוֹ תְּהִלָּה לְֽכׇל־חֲסִידָיו לִבְנֵי יִשְׂרָאֵל עַם קְרֹבוֹ
+  הַֽלְלוּ־יָֽהּ׃ {פ}'
+draft:
+  provider: bedrock
+  model: us.anthropic.claude-sonnet-4-6
+  prompt:
+    name: final
+    sha256: 05dde3ebb2bf5e4261d6114646d12c59d011d555daaba55a031e1d1841d249f7
+    path: /Users/dave/source/targoo/prompts/final.md
+  text: 'Hallelujah! Praise the LORD from the heavens; praise him in the heights.
+
+    Praise him, all his angels; praise him, all his hosts.
+
+    Praise him, sun and moon; praise him, all you shining stars.
+
+    Praise him, highest heavens, and the waters above the skies.
+
+    Let them praise the name of the LORD, for he commanded and they were created.
+
+    He set them in place forever and ever; he gave a decree that will not pass away.
+
+    Praise the LORD from the earth, you sea creatures and all the depths,
+
+    fire and hail, snow and mist, stormy wind that does his bidding,
+
+    mountains and all hills, fruit trees and all cedars,
+
+    wild animals and all livestock, crawling things and winged birds,
+
+    kings of the earth and all peoples, princes and all rulers of the earth,
+
+    young men and women alike, old and young together.
+
+    Let them praise the name of the LORD, for his name alone is exalted; his majesty
+    is above earth and heaven.
+
+    He has raised up a horn for his people, praise for all his faithful ones, for
+    the children of Israel, the people close to him. Hallelujah!'
+english_frozen: null
+edit_history: []
+source: {}

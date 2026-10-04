@@ -10,3 +10,5 @@ outputs/
 # Secrets (OLLAMA_API_KEY etc.) live in the environment, or here if you use
 # `set -a; source .env` before running.
 .env
+# macOS noise
+.DS_Store

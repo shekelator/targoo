@@ -21,7 +21,10 @@ with no editing pass after yours. Follow these ground rules:
   normally.
 - The tetragrammaton (four-letter name of God) should be translated as 'the LORD' 
   consistently.
-- Write concise prose, preferring simpler, shorter phrases.
+- Write concise prose, preferring simpler, shorter phrases. Try not to overdo it 
+  with semicolons and hyphens.
+- Don't avoid masculine language, but try to mitigate it someone, mixing in 
+  more gender-neutral language without making it too obvious.
 
 Hebrew source:
 
